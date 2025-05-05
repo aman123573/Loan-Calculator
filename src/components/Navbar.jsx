@@ -1,70 +1,77 @@
-import React, { useState } from "react";
+// src/components/Navbar.js
+import React, { useContext } from "react";
+import { Link as RouterLink } from "react-router-dom"; // for client-side navigation
 import {
   AppBar,
   Toolbar,
   Typography,
   Button,
   Switch,
+  Box,
   useMediaQuery,
   useTheme,
-  Box,
 } from "@mui/material";
+import { ThemeContext } from "../context/ThemeContext";
 
 const Navbar = () => {
-  const [toggle, setToggle] = useState(true);
+  // Grab darkMode and toggleTheme from your ThemeContext
+  const { darkMode, toggleTheme } = useContext(ThemeContext);
 
+  // useMediaQuery to adapt layout on smaller screens
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
 
+  // Build a gradient that changes slightly in light vs. dark mode
+  const gradient =
+    theme.palette.mode === "dark"
+      ? "linear-gradient(to right, #0d47a1, #1565c0)"
+      : "linear-gradient(to right, #1976d2, #6dd5ed)";
+
   return (
-    <>
-    <Box sx={{ flexGrow: 1 }}>
-      
-      <AppBar
-        position="static"
+    <AppBar position="static" sx={{ background: gradient }}>
+      <Toolbar
         sx={{
-          background: "linear-gradient(to right, #1976d2, #1565c0, #0d47a1)",
+          flexDirection: isMobile ? "column" : "row",
+          alignItems: "center",
+          justifyContent: "space-between",
+          p: isMobile ? 1 : 2,
+          gap: isMobile ? 1 : 0,
         }}
       >
-        <Toolbar
-          sx={{
-            display: "flex",
-            flexDirection: isMobile ? "column" : "row",
-            alignItems: isMobile ? "flex-start" : "center",
-            justifyContent: "space-between",
-            gap: isMobile ? 1 : 0,
-            p: isMobile ? 1 : 2,
-          }}
+        {/* App title */}
+        <Typography
+          variant="h6"
+          component={RouterLink}
+          to="/"
+          sx={{ color: "inherit", textDecoration: "none" }}
         >
-          <Typography variant="h6" sx={{ fontWeight: 600 }}>
-            Loan Calculator
-          </Typography>
+          Loan Calculator
+        </Typography>
 
-          <Box
-            sx={{
-              display: "flex",
-              flexWrap: "wrap",
-              alignItems: "center",
-              justifyContent: isMobile ? "flex-start" : "center",
-              gap: 1.5,
-            }}
-          >
-            <Button color="inherit">HOME</Button>
-            <Button color="inherit">EXCHANGE RATES (LIVE)</Button>
-            <Button color="inherit">ABOUT</Button>
-            <Button color="inherit">ERROR PAGE</Button>
-            <Switch
-              checked={toggle}
-              onChange={() => setToggle(!toggle)}
-              color="default"
-            />
-          </Box>
-        </Toolbar>
-      </AppBar>
+        {/* Navigation buttons */}
+        <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
+          {/* Home */}
+          <Button component={RouterLink} to="/" color="inherit">
+            HOME
+          </Button>
+          {/* Exchange Rates page */}
+          <Button component={RouterLink} to="/exchange-rates" color="inherit">
+            EXCHANGE RATES (LIVE)
+          </Button>
+          {/* About (you can wire this later to "/about") */}
+          <Button component={RouterLink} to="/about" color="inherit">
+            ABOUT
+          </Button>
+          {/* Error Page */}
+          <Button component={RouterLink} to="/error-page" color="inherit">
+            ERROR PAGE
+          </Button>
 
-      
-    </Box>
-    </>
+          {/* Theme toggle switch */}
+          <Switch checked={darkMode} onChange={toggleTheme} color="default" />
+        </Box>
+      </Toolbar>
+    </AppBar>
   );
 };
 
