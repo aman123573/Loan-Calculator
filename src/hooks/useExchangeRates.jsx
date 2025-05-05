@@ -9,7 +9,7 @@ export function useExchangeRates(targetCurrency) {
   const [error, setError] = useState(null);
 
   useEffect(() => {
-    if (targetCurrency === 'USD') return; // base
+    if (targetCurrency === 'USD') return; 
     setLoading(true);
     axios.get(EXCHANGE_API)
       .then(resp => {

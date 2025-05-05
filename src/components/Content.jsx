@@ -26,32 +26,32 @@ import { useExchangeRates } from "../hooks/useExchangeRates";
 import { CurrencyContext } from "../context/CurrencyContext";
 
 const Content = () => {
-  // form inputs
+  
   const [loanAmount, setLoanAmount] = useState("100000");
   const [interestRate, setInterestRate] = useState("8.5");
   const [term, setTerm] = useState("5");
 
-  // global currency
+  
   const { currency, setCurrency } = useContext(CurrencyContext);
 
-  // results
+  
   const [emi, setEmi] = useState(null);
   const [schedule, setSchedule] = useState([]);
 
-  // hooks
+  
   const calculateEMI = useEMICalculator();
   const { rate: exchangeRate, loading: rateLoading } =
     useExchangeRates(currency);
 
   const handleCalculate = async () => {
-    // 1. compute raw EMI & schedule in USD
+    
     const { emi: rawEmi, schedule: rawSchedule } = calculateEMI(
       loanAmount,
       interestRate,
       term
     );
 
-    // 2. apply exchange rate
+    
     const convertedEmi = (rawEmi * exchangeRate).toFixed(2);
     const convertedSchedule = rawSchedule.map((row) => ({
       month: row.month,
@@ -60,7 +60,7 @@ const Content = () => {
       balance: (row.balance * exchangeRate).toFixed(2),
     }));
 
-    // 3. set into state
+    
     setEmi(convertedEmi);
     setSchedule(convertedSchedule);
   };

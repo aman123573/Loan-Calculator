@@ -7,13 +7,13 @@ export function useEMICalculator() {
     const N = parseInt(years, 10) * 12;
     const R = annualRate / 12;
 
-    // EMI calculation using the given formula
+    // EMI calculation 
     const factor = Math.pow(1 + R, N);
     const rawEmi = (P * R * factor) / (factor - 1);
-    // Round EMI to two decimals for consistent amortization
+    
     const emi = Number(rawEmi.toFixed(2));
 
-    // Build amortization schedule using the rounded EMI
+    // amortization schedule 
     let balance = P;
     const schedule = [];
 

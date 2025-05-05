@@ -19,7 +19,7 @@ const Navbar = () => {
   return (
     <>
     <Box sx={{ flexGrow: 1 }}>
-      {/* Gradient Navbar */}
+      
       <AppBar
         position="static"
         sx={{
