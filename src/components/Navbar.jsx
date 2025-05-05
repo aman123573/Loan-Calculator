@@ -9,7 +9,6 @@ import {
   useTheme,
   Box,
 } from "@mui/material";
-import Content from "./Content";
 
 const Navbar = () => {
   const [toggle, setToggle] = useState(true);
@@ -65,7 +64,6 @@ const Navbar = () => {
 
       
     </Box>
-    <Content/>
     </>
   );
 };
